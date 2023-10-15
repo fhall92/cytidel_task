@@ -1,0 +1,10 @@
+C:\Users\Fhall\source\repos\CytidelTask.Db\bin\Debug\CytidelTask.Db.dacpac
+C:\Users\Fhall\source\repos\CytidelTask.Db\bin\Debug\CytidelTask.Db.dll
+C:\Users\Fhall\source\repos\CytidelTask.Db\bin\Debug\CytidelTask.Db.pdb
+C:\Users\Fhall\source\repos\CytidelTask.Db\obj\Debug\CytidelTask.Db.sqlproj.AssemblyReference.cache
+C:\Users\Fhall\source\repos\CytidelTask.Db\obj\Debug\Model.xml
+C:\Users\Fhall\source\repos\CytidelTask.Db\obj\Debug\refactor.xml
+C:\Users\Fhall\source\repos\CytidelTask.Db\obj\Debug\postdeploy.sql
+C:\Users\Fhall\source\repos\CytidelTask.Db\obj\Debug\predeploy.sql
+C:\Users\Fhall\source\repos\CytidelTask.Db\obj\Debug\CytidelTask.Db.dll
+C:\Users\Fhall\source\repos\CytidelTask.Db\obj\Debug\CytidelTask.Db.pdb

@@ -1,0 +1,127 @@
+﻿@page
+@model TasksModel
+@{
+	ViewData["Title"] = "Tasks";
+}
+
+<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	th, td {
+		padding: 10px;
+		text-align: left;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.edit-button {
+		background-color: #4CAF50;
+		color: white;
+		padding: 10px 20px;
+		border: none;
+		cursor: pointer;
+	}
+</style>
+
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<canvas id="statusChart" width="400" height="400"></canvas>
+<h2>Task List</h2>
+
+<form method="get">
+	<label>Status:</label>
+	<select name="status">
+		<option value="">All</option>
+		<option value="Pending">Pending</option>
+		<option value="InProgress">In Progress</option>
+		<option value="Completed">Completed</option>
+		<option value="Archived">Archived</option>
+	</select>
+
+	<label>Priority:</label>
+	<select name="priority">
+		<option value="">All</option>
+		<option value="High">High</option>
+		<option value="Medium">Medium</option>
+		<option value="Low">Low</option>
+	</select>
+
+	<button type="submit">Filter</button>
+</form>
+
+<div id="taskContainer">
+	<table border="1">
+		<!-- Table headers here -->
+		<tbody>
+			<!-- Tasks will be dynamically loaded here based on the current page -->
+			@foreach (var task in Model.Tasks)
+			{
+				<tr>
+					<td><a href="/Task/TaskEdit/@task.TaskId" class="edit-button">Edit</a></td>
+					<td>@task.Title</td>
+					<td>@task.Description</td>
+					<td>@task.Priority</td>
+					<td>@task.Status</td>
+					<td>@task.DueDate.ToString("yyyy-MM-dd")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		// Get the canvas element and its 2d rendering context
+		var ctx = document.getElementById('statusChart').getContext('2d');
+
+		// Data for the chart
+		var statusCounts = @Html.Raw(Json.Serialize(Model.StatusCounts));
+
+		// Check if statusCounts is not null or empty
+		if (statusCounts && Object.keys(statusCounts).length > 0) {
+			// Extract labels and data values from statusCounts object
+			var labels = Object.keys(statusCounts);
+			var dataValues = Object.values(statusCounts);
+
+			// Create data for the chart
+			var chartData = {
+				labels: labels,
+				datasets: [{
+					data: dataValues,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.5)', // Red
+						'rgba(255, 255, 99, 0.5)', // Yellow
+						'rgba(75, 192, 192, 0.5)',  // Green
+						'rgb(25, 0, 100,0.5)'  // Purple
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(255, 255, 99, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(25, 0, 100, 1)'
+					],
+					borderWidth: 1
+				}]
+			};
+
+			// Chart configuration options
+			var options = {
+				responsive: false,
+				maintainAspectRatio: false
+			};
+
+			// Create a new pie chart using Chart.js
+			var statusChart = new Chart(ctx, {
+				type: 'pie',
+				data: chartData,
+				options: options
+			});
+		} else {
+			console.error("Invalid or empty statusCounts data.");
+		}
+	});
+</script>

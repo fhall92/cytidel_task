@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\Fhall\source\repos\CytidelTask\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>False|2023-10-15T11:13:25.4677735Z;False|2023-10-15T12:09:37.2998899+01:00;False|2023-10-15T12:07:05.7246185+01:00;False|2023-10-15T12:06:16.5635796+01:00;False|2023-10-15T12:05:52.4708770+01:00;False|2023-10-15T12:03:27.7354148+01:00;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server = franlaptop\sqlexpress%3b Database = cytidel_task%3b Trusted_Connection=True%3b TrustServerCertificate=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,19 @@
+﻿** Highlights
+     Tables that will be recreated with data migrated
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Alter
+       [dbo].[pr_task_create] (Procedure)
+       [dbo].[pr_task_get_by_id] (Procedure)
+       [dbo].[pr_task_update] (Procedure)
+     Create
+       [dbo].[pr_task_get_by_status] (Procedure)
+
+** Supporting actions
