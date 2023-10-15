@@ -69,7 +69,5 @@
     <Build Include="dbo\Stored Procedures\pr_task_get_by_id.sql" />
     <Build Include="dbo\Stored Procedures\pr_task_update.sql" />
     <Build Include="dbo\Stored Procedures\pr_task_get_all.sql" />
-    <Build Include="dbo\Stored Procedures\pr_task_get_by_status.sql" />
-    <Build Include="dbo\Stored Procedures\pr_task_delete.sql" />
   </ItemGroup>
 </Project>

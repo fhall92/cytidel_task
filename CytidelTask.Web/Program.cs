@@ -32,8 +32,8 @@ app.MapRazorPages();
 
 app.MapGet("/", async (HttpContext context) =>
 {
-	context.Response.Redirect("/Task/Tasks");
-	await Task.CompletedTask;
+    context.Response.Redirect("/Task/Tasks");
+    await Task.CompletedTask;
 });
 
 app.Run();

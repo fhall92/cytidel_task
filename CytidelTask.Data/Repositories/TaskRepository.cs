@@ -1,16 +1,14 @@
-﻿using System.Data;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
+using System.Data;
 
 namespace CytidelTask.Data.Repositories
 {
     public class TaskRepository : ITaskRepository
     {
-		public IEnumerable<Task> GetAllTasks()
+        public IEnumerable<Task> GetAllTasks()
         {
-			List<Task> tasks = new List<Task>();
+            List<Task> tasks = new List<Task>();
             SqlCommand sqlCommand = new SqlCommand();
             var sqlConnection = new SqlConnection(GetConnectionString());
             DataSet dsDataSet = new DataSet();
@@ -33,32 +31,32 @@ namespace CytidelTask.Data.Repositories
 
         public Task? GetTaskById(int taskId)
         {
-			SqlCommand sqlCommand = new SqlCommand();
-			var sqlConnection = new SqlConnection(GetConnectionString());
-			DataSet dsDataSet = new DataSet();
-			SqlParameter sqlParameter;
+            SqlCommand sqlCommand = new SqlCommand();
+            var sqlConnection = new SqlConnection(GetConnectionString());
+            DataSet dsDataSet = new DataSet();
+            SqlParameter sqlParameter;
 
-			//set up Stored Procedure
-			sqlCommand.Connection = sqlConnection;
-			sqlCommand.CommandText = "pr_task_get_by_id";
-			sqlCommand.CommandType = CommandType.StoredProcedure;
+            //set up Stored Procedure
+            sqlCommand.Connection = sqlConnection;
+            sqlCommand.CommandText = "pr_task_get_by_id";
+            sqlCommand.CommandType = CommandType.StoredProcedure;
 
-			//Add Parameters
-			sqlParameter = sqlCommand.Parameters.Add("@TaskID", SqlDbType.Int);
-			sqlParameter.Direction = ParameterDirection.Input;
-			sqlParameter.Value = taskId;
+            //Add Parameters
+            sqlParameter = sqlCommand.Parameters.Add("@TaskID", SqlDbType.Int);
+            sqlParameter.Direction = ParameterDirection.Input;
+            sqlParameter.Value = taskId;
 
-			var sqlAdapter = new SqlDataAdapter(sqlCommand);
-			sqlAdapter.Fill(dsDataSet);
+            var sqlAdapter = new SqlDataAdapter(sqlCommand);
+            sqlAdapter.Fill(dsDataSet);
 
-			DataTable dtTask = dsDataSet.Tables[0];
+            DataTable dtTask = dsDataSet.Tables[0];
 
             if (dtTask.Rows.Count == 0)
                 return null;
 
             else
                 return DataRowToTask(dtTask.Rows[0]);
-		}
+        }
 
         public void CreateTask(Task task)
         {
@@ -142,10 +140,10 @@ namespace CytidelTask.Data.Repositories
             return task;
         }
 
-		public string GetConnectionString()
-		{
-			var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
-			return configuration.GetConnectionString("DefaultConnection") ?? "";
-		}
-	}
+        public string GetConnectionString()
+        {
+            var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+            return configuration.GetConnectionString("DefaultConnection") ?? "";
+        }
+    }
 }

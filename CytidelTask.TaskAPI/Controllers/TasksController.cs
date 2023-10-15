@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using CytidelTask.Data.Repositories;
 using CytidelTask.Data;
+using CytidelTask.Data.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace CytidelTask.TaskAPI.Controllers
@@ -10,17 +10,15 @@ namespace CytidelTask.TaskAPI.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository = new TaskRepository();
-		private readonly IConfiguration _configuration;
-		private readonly TaskLogger _taskLogger;
+        private readonly TaskLogger _taskLogger;
 
-		public TasksController(IConfiguration configuration, TaskLogger taskLogger)
-		{
-			_configuration = configuration;
-			_taskLogger = taskLogger;
-		}
+        public TasksController(TaskLogger taskLogger)
+        {
+            _taskLogger = taskLogger;
+        }
 
-		// GET /api/tasks/GetAll
-		[HttpGet("GetAll")]
+        // GET /api/tasks/GetAll
+        [HttpGet("GetAll")]
         public ActionResult<IEnumerable<Data.Task>> GetTasks()
         {
             _taskLogger.Log($"GetTasks  /api/tasks/GetAll", false);
@@ -33,15 +31,15 @@ namespace CytidelTask.TaskAPI.Controllers
         {
             if (_taskRepository.GetTaskById(id) == null)
             {
-				_taskLogger.Log($"GetTask(int id) GET /api/tasks/GetTask    404: Task {id} Not Found.", false);
-				return NotFound();
+                _taskLogger.Log($"GetTask(int id) GET /api/tasks/GetTask    404: Task {id} Not Found.", false);
+                return NotFound();
             }
 
-			_taskLogger.Log($"GetTask(int id) GET /api/tasks/GetTask    200: Task {id}", false);
-			return Ok(_taskRepository.GetTaskById(id));
+            _taskLogger.Log($"GetTask(int id) GET /api/tasks/GetTask    200: Task {id}", false);
+            return Ok(_taskRepository.GetTaskById(id));
         }
 
-        // POST /api/tasks
+        // POST /api/tasks/Create
         [HttpPost("Create")]
         public ActionResult<Data.Task> CreateTask(TaskDto taskDto)
         {
@@ -51,9 +49,9 @@ namespace CytidelTask.TaskAPI.Controllers
             if (taskDto.Priority == Priority.High)
                 _taskLogger.Log($"CreateTask(TaskDto) POST /api/tasks/Create    200: Critical Task Created: [{taskDto.Title}]", true);
 
-			_taskLogger.Log($"CreateTask(TaskDto) POST /api/tasks/Create    200: Critical Task Created: [{taskDto.Title}]", false);
+            _taskLogger.Log($"CreateTask(TaskDto) POST /api/tasks/Create    200: Critical Task Created: [{taskDto.Title}]", false);
 
-			return Ok(taskDto);
+            return Ok(taskDto);
         }
 
         // PUT /api/tasks/{id}/Update
@@ -64,8 +62,8 @@ namespace CytidelTask.TaskAPI.Controllers
 
             if (existingTask == null)
             {
-				_taskLogger.Log($"UpdateTask(int id, TaskDto) PUT /api/tasks/(id)/Update    404: Task {id} Not Found.", false);
-				return NotFound($"Task {id} Not Found");
+                _taskLogger.Log($"UpdateTask(int id, TaskDto) PUT /api/tasks/(id)/Update    404: Task {id} Not Found.", false);
+                return NotFound($"Task {id} Not Found");
             }
 
             existingTask.Title = taskDto.Title;
@@ -76,12 +74,12 @@ namespace CytidelTask.TaskAPI.Controllers
 
             _taskRepository.UpdateTask(existingTask);
 
-			if (existingTask.Priority == Priority.High)
-				_taskLogger.Log($"UpdateTask(int id, TaskDto) PUT /api/tasks/(id)/Update    200: Critical Task Created: [{existingTask.TaskId}]", true);
+            if (existingTask.Priority == Priority.High)
+                _taskLogger.Log($"UpdateTask(int id, TaskDto) PUT /api/tasks/(id)/Update    200: Critical Task Created: [{existingTask.TaskId}]", true);
 
-			_taskLogger.Log($"UpdateTask(int id, TaskDto) PUT /api/tasks/(id)/Update    200: Critical Task Created: [{existingTask.TaskId}]", false);
+            _taskLogger.Log($"UpdateTask(int id, TaskDto) PUT /api/tasks/(id)/Update    200: Critical Task Created: [{existingTask.TaskId}]", false);
 
-			return Ok($"Task {id} updated.");
+            return Ok($"Task {id} updated.");
         }
     }
 
@@ -92,7 +90,7 @@ namespace CytidelTask.TaskAPI.Controllers
         public DateTime DueDate { get; set; }
         public Priority Priority { get; set; }
         public Status Status { get; set; }
-        
+
         public TaskDto(string title, string description, DateTime dueDate, Priority priority, Status status)
         {
             Title = title;
